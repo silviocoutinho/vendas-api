@@ -7,3 +7,5 @@ create table produto (
 	preco numeric(16, 2),
 	sku varchar(20)	
 )
+
+alter table produto add column data_cadastro date;
