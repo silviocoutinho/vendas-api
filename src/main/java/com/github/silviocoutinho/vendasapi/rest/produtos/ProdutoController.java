@@ -1,19 +1,20 @@
 package com.github.silviocoutinho.vendasapi.rest.produtos;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
 import com.github.silviocoutinho.vendasapi.model.Produto;
 import com.github.silviocoutinho.vendasapi.model.repository.ProdutoRepository;
 
@@ -24,6 +25,27 @@ public class ProdutoController {
 	
 	@Autowired
 	private ProdutoRepository repository;
+	
+	@GetMapping
+	public List<ProdutoFormRequest> getLista(){
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return repository.findAll().stream().map(new Function<Produto, ProdutoFormRequest>() {
+
+			@Override
+			public ProdutoFormRequest apply(Produto t) {
+				// TODO Auto-generated method stub
+				return ProdutoFormRequest.fromModel(t);
+			}
+		
+		}).collect(Collectors.toList());
+	}
 	
 	@PostMapping
 	public ProdutoFormRequest salvar(@RequestBody ProdutoFormRequest produto) {
