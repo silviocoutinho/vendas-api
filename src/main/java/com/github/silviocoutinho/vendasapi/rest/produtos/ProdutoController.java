@@ -29,13 +29,13 @@ public class ProdutoController {
 	@GetMapping
 	public List<ProdutoFormRequest> getLista(){
 		
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+//		try {
+//			Thread.sleep(2000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 		return repository.findAll().stream().map(new Function<Produto, ProdutoFormRequest>() {
 
 			@Override
@@ -45,6 +45,18 @@ public class ProdutoController {
 			}
 		
 		}).collect(Collectors.toList());
+	}
+	
+	@GetMapping("{id}")
+	public ResponseEntity<ProdutoFormRequest> getById( @PathVariable Long id) {
+		Optional<Produto> produtoExistente = repository.findById(id);
+		if(produtoExistente.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		ProdutoFormRequest produto = produtoExistente.map(ProdutoFormRequest::fromModel).get();
+		return ResponseEntity.ok(produto);
+		
 	}
 	
 	@PostMapping
