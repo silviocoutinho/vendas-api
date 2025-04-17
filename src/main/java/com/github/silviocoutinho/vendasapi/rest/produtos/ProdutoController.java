@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class ProdutoController {
 //			e.printStackTrace();
 //		}
 //		
-		return repository.findAll().stream().map(new Function<Produto, ProdutoFormRequest>() {
+		return repository.findAll(Sort.by(Sort.Direction.DESC, "id")).stream().map(new Function<Produto, ProdutoFormRequest>() {
 
 			@Override
 			public ProdutoFormRequest apply(Produto t) {
