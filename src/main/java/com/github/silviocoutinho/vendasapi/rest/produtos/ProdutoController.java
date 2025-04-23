@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +38,7 @@ public class ProdutoController {
 //			e.printStackTrace();
 //		}
 //		
-		return repository.findAll(Sort.by(Sort.Direction.DESC, "id")).stream().map(new Function<Produto, ProdutoFormRequest>() {
+		return repository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream().map(new Function<Produto, ProdutoFormRequest>() {
 
 			@Override
 			public ProdutoFormRequest apply(Produto t) {
@@ -82,6 +83,20 @@ public class ProdutoController {
 		repository.save(entidadeProduto);
 		
 		return ResponseEntity.ok().build();
+		
+	}
+	
+	@DeleteMapping("{id}")
+	public ResponseEntity<Void> deletar( @PathVariable Long id) {
+		
+		Optional<Produto> produtoExistente = repository.findById(id);
+		
+		if(produtoExistente.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		repository.delete(produtoExistente.get());
+		return ResponseEntity.noContent().build();
 		
 	}
 	
