@@ -9,3 +9,16 @@ create table produto (
 )
 
 alter table produto add column data_cadastro date;
+
+CREATE TABLE cliente (
+
+	id bigserial not null primary key,
+	nascimento date NOT NULL,	
+	nome varchar(100) NOT NULL,
+	endereco varchar(255) NOT NULL,
+	cpf varchar(14) NOT NULL,
+	telefone varchar(14),
+	email varchar(100),	
+	data_cadastro date
+
+)
