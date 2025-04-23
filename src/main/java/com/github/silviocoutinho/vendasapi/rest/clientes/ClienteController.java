@@ -1,6 +1,8 @@
 package com.github.silviocoutinho.vendasapi.rest.clientes;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.catalina.filters.AddDefaultCharsetFilter.ResponseWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +70,14 @@ public class ClienteController {
 					return ResponseEntity.noContent().build();
 				})			
 				.orElseGet( () ->  ResponseEntity.notFound().build() );
-				
+	}
+	
+	public List<ClienteFormRequest> getLista(){
+		return repository
+				.findAll()
+				.stream()
+				.map( ClienteFormRequest::fromModel )
+				.collect(Collectors.toList());
 				
 	}
 	
