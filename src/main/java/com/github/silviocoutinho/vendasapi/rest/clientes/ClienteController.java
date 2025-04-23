@@ -47,7 +47,16 @@ public class ClienteController {
 		return ResponseEntity.noContent().build();
 	}
 	
-
+	@GetMapping("{id}")
+	public ResponseEntity<ClienteFormRequest> getById(@PathVariable Long id){
+		return repository.findById(id)
+				.map( ClienteFormRequest::fromModel)
+				.map( clienteFR -> ResponseEntity.ok(clienteFR))
+				.orElseGet( () ->  ResponseEntity.notFound().build() );
+				
+				//Pode ser orElse
+				//. orElse( ResponseEntity.notFound().build() );
+	}
 	
 
 }
