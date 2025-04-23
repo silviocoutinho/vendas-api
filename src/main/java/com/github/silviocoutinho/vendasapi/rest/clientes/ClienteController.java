@@ -2,9 +2,11 @@ package com.github.silviocoutinho.vendasapi.rest.clientes;
 
 import java.util.Optional;
 
+import org.apache.catalina.filters.AddDefaultCharsetFilter.ResponseWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,6 +59,19 @@ public class ClienteController {
 				//Pode ser orElse
 				//. orElse( ResponseEntity.notFound().build() );
 	}
+	
+	@DeleteMapping("{id}")
+	public ResponseEntity<Object> delete(@PathVariable Long id){
+		return repository.findById(id)
+				.map( cliente -> {
+					repository.delete(cliente);
+					return ResponseEntity.noContent().build();
+				})			
+				.orElseGet( () ->  ResponseEntity.notFound().build() );
+				
+				
+	}
+	
 	
 
 }
